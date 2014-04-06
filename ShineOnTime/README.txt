@@ -1,0 +1,1 @@
+http://sourceforge.net/projects/sqlitebrowser/files/latest/download
