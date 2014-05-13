@@ -26,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 
 import pl.shine.core.ReservationManager;
 import pl.shine.core.TimeSlot;
+import javax.swing.SwingConstants;
 
 public class gui extends JFrame {
 
@@ -38,7 +39,13 @@ public class gui extends JFrame {
 	 JTextArea myTextArea_list;
 	 JTextField myTextField_date;
 	 JTextArea myTextArea_reservation;
+	 JTextArea myTextArea_reservationDate;
+	 JTextArea myTextArea_reservationHour;
+	 JTextArea myTextArea_reservationEmail;
+	 JTextArea myTextArea_reservationAfterField;
 	 JTextField myTextField_reservationDay;
+	 JTextField myTextField_reservationMonth;
+	 JTextField myTextField_reservationYear;
 	 JTextField myTextField_reservationHour;
 	 JTextField myTextField_reservationEmail;
 	 JButton myButton_reservation;
@@ -73,7 +80,8 @@ public class gui extends JFrame {
 		 logo.setBorder(new EmptyBorder(10, 20, 40, 20));
 		 
 		 final JTextField myTextField_date = new JTextField(15);
-		 myTextField_date.setToolTipText("Wpisz datê: RRRR-MM-DD");
+		 myTextField_date.setHorizontalAlignment(SwingConstants.CENTER);
+		 myTextField_date.setToolTipText("Wpisz datê: DD-MM-RRRR");
 		 myTextField_date.setFont(new Font("Serif", Font.PLAIN, 12));
 		 myTextField_date.setEditable(true);
 		 myLabel_info.setBorder(new EmptyBorder(5, 0, 15, 40));
@@ -91,17 +99,44 @@ public class gui extends JFrame {
 		 myTextArea_list.setEditable(false);
 		 myTextArea_list.setBorder(new EmptyBorder(20, 20, 50, 20));
 		 
-		 
-		 final JTextArea myTextArea_reservation = new JTextArea("");
-		 myTextArea_reservation.setText("Data rezerwacji         Godzina rezerwacji                Adres email"); //tekst napisany tak, ¿eby wystêpowa³ nad polami tekstowymi. 
-		 myTextArea_reservation.setBorder(new EmptyBorder(10, 20, 10, 55));
+		 final JTextArea myTextArea_reservationDate = new JTextArea("");
+		 myTextArea_reservationDate.setText("Data:");
+		 myTextArea_reservationDate.setBorder(new EmptyBorder(20, 80, 10, 40));
 		 myTextArea_list.setEditable(false);
 		 
-		 final JTextField myTextField_reservationDay = new JTextField(10);
-		 myTextField_reservationDay.setEditable(false);
+		 final JTextArea myTextArea_reservationHour = new JTextArea("");
+		 myTextArea_reservationHour.setText("Godzina:");
+		 myTextArea_reservationHour.setBorder(new EmptyBorder(20, 65, 10, 40));
+		 myTextArea_list.setEditable(false);
+
+		 final JTextArea myTextArea_reservationYear = new JTextArea("");
+		 myTextArea_reservationYear.setText("Email");
+		 myTextArea_reservationYear.setBorder(new EmptyBorder(20, 30, 10, 70));
+		 myTextArea_list.setEditable(false);
 		 
-		 final JTextField myTextField_reservationHour = new JTextField(10);
+		 final JTextArea myTextArea_reservationAfterField = new JTextArea("");
+		 myTextArea_reservationAfterField.setText("");
+		 myTextArea_reservationAfterField.setBorder(new EmptyBorder(0, 190, 0, 180));
+		 myTextArea_list.setEditable(false);
+		 
+		 
+		 final JTextField myTextField_reservationDay = new JTextField(5);
+		 myTextField_reservationDay.setHorizontalAlignment(SwingConstants.CENTER);
+		 myTextField_reservationDay.setEditable(false);
+		
+		 final JTextField myTextField_reservationMonth = new JTextField(5);
+		 myTextField_reservationMonth.setHorizontalAlignment(SwingConstants.CENTER);
+		 myTextField_reservationMonth.setEditable(false);
+		 
+		 final JTextField myTextField_reservationYear = new JTextField(7);
+		 myTextField_reservationYear.setHorizontalAlignment(SwingConstants.CENTER);
+		 myTextField_reservationYear.setEditable(false);
+		 
+		 final JTextField myTextField_reservationHour = new JTextField(5);
+		 myTextField_reservationHour.setHorizontalAlignment(SwingConstants.CENTER);
+		 
 		 final JTextField myTextField_reservationEmail = new JTextField(15);
+		 myTextField_reservationEmail.setHorizontalAlignment(SwingConstants.CENTER);
 		 
 		 myPanel.add(myTextArea_blank);
 		 myPanel.add(logo);
@@ -113,10 +148,15 @@ public class gui extends JFrame {
 		 myPanel.add(myButton_hours);
 		 myPanel.add(myTextArea_list);
 		 myPanel.add(myTextArea_blank);
-		 myPanel.add(myTextArea_reservation);
+		 myPanel.add(myTextArea_reservationDate);
+		 myPanel.add(myTextArea_reservationHour);
+		 myPanel.add(myTextArea_reservationYear);
 		 myPanel.add(myTextField_reservationDay);
+		 myPanel.add(myTextField_reservationMonth);
+		 myPanel.add(myTextField_reservationYear);
 		 myPanel.add(myTextField_reservationHour);
 		 myPanel.add(myTextField_reservationEmail);
+		 myPanel.add(myTextArea_reservationAfterField);
 		 myPanel.add(myButton_reservation);
 		 myPanel.add(myButton_cancel);
 		 myPanel.add(myTextArea_blank);
@@ -129,7 +169,18 @@ public class gui extends JFrame {
         	 //dodaæ textSelect albo coœ w tym stylu dla pól ju¿ zarezerwowanych
         	 myTextArea_list.setText("");
         	 String date = myTextField_date.getText();
-    		 myTextField_reservationDay.setText(date);
+    		 try {
+				myTextField_reservationDay.setText(String.valueOf(TimeSlot.getReservationDay(date)));
+	    		myTextField_reservationMonth.setText(String.valueOf(TimeSlot.getReservationMonth(date)));
+	    		myTextField_reservationYear.setText(String.valueOf(TimeSlot.getReservationYear(date)));
+			} catch (NumberFormatException | IOException e) {
+				JOptionPane.showMessageDialog(null, "B³¹d przy podawaniu daty! Spróbuj DD-MM-RRRR");
+				myTextArea_list.setText("Podaj poprawne dane");
+	    		myTextField_reservationDay.setText("");
+	    		myTextField_reservationMonth.setText("");
+	    		myTextField_reservationYear.setText("");
+	    		myTextField_date.setText("");
+			}
         	 try {
 				ArrayList<Integer> hour = TimeSlot.ListHour(date);
 				if (hour != null) {
@@ -141,15 +192,19 @@ public class gui extends JFrame {
 				}
 				}
 				else {
-					myTextArea_list.setText("Podaj poprawne dane: RRRR-MM-DD");
+					myTextArea_list.setText("Podaj poprawne dane: DD-MM-RRRR");
 		    		myTextField_reservationDay.setText("");
+		    		myTextField_reservationMonth.setText("");
+		    		myTextField_reservationYear.setText("");
 		    		myTextField_date.setText("");
 				}
 					 
-			} catch (ArrayIndexOutOfBoundsException | IOException e1) {
-				JOptionPane.showMessageDialog(null, "B³¹d przy podawaniu daty! Spróbuj RRRR-MM-DD");
+			} catch (ArrayIndexOutOfBoundsException | NumberFormatException | IOException e1) {
+				JOptionPane.showMessageDialog(null, "B³¹d przy podawaniu daty! Spróbuj DD-MM-RRRR");
 				myTextArea_list.setText("Podaj poprawne dane");
 	    		myTextField_reservationDay.setText("");
+	    		myTextField_reservationMonth.setText("");
+	    		myTextField_reservationYear.setText("");
 	    		myTextField_date.setText("");
 			}
 
@@ -173,6 +228,8 @@ public class gui extends JFrame {
          myTextField_date.setText("");
          myTextField_reservationHour.setText("");
          myTextField_reservationDay.setText("");
+         myTextField_reservationMonth.setText("");
+         myTextField_reservationYear.setText("");
          myTextField_reservationEmail.setText("");
          
          }		  

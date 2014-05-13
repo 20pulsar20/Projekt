@@ -1,6 +1,8 @@
 package pl.shine.core;
 
 import static org.junit.Assert.*;
+
+import java.io.IOException;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,7 +24,7 @@ public class TimeSlotTest {
 		int todayMonth = TimeSlot.getTodaysMonth();
 		int todayYear = TimeSlot.getTodaysYear();
 		
-		int reservationDay = 12;	//przy puszczaniu testu zmieniæ datê na dzisiejsz¹
+		int reservationDay = 13;	//przy puszczaniu testu zmieniæ datê na dzisiejsz¹
 		int reservationMonth = 05;
 		int reservationYear = 2014;
 		
@@ -42,6 +44,23 @@ public class TimeSlotTest {
 		assertEquals(verifyLenghtOfMay, maxDayOfThisMonth);
 		assertEquals(verifyLenghtOfJune, maxDayOfNextMonth);
 		
+		
+	}
+	
+	@Test
+	public void testPodzialDate() throws IOException {
+		String stringDate = "25-05-2014";
+	    int reservationDay = TimeSlot.getReservationDay(stringDate);
+	    int reservationMonth = TimeSlot.getReservationMonth(stringDate);
+	    int reservationYear = TimeSlot.getReservationYear(stringDate);
+		
+		int day = 25;
+		int month = 05;
+		int year = 2014;
+		
+		assertEquals(day, reservationDay);
+		assertEquals(month, reservationMonth);
+		assertEquals(year, reservationYear);
 		
 	}
 

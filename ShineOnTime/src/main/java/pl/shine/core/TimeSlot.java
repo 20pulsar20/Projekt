@@ -70,6 +70,42 @@ public class TimeSlot {
 		  int getMaxDaysOfNextMonth =  c.getActualMaximum(Calendar.DAY_OF_MONTH);
 		  return getMaxDaysOfNextMonth;
 	}
+	
+	public static int getReservationDay(String stringDate) throws IOException {
+		try {
+		String getDate = stringDate;
+	    String[] splitedDate = getDate.split("-"); //podana przez u¿ytkownika data jest dzielona na dzieñ, miesi¹c, rok
+	    int reservationDay = Integer.parseInt(splitedDate[0]);
+	    return reservationDay;
+		}
+		 catch (ArrayIndexOutOfBoundsException | NumberFormatException e1) {
+				return 0;
+		}
+	}
+	
+	public static int getReservationMonth(String stringDate) {
+		try {
+		String getDate = stringDate;
+	    String[] splitedDate = getDate.split("-"); //podana przez u¿ytkownika data jest dzielona na dzieñ, miesi¹c, rok
+	    int reservationMonth = Integer.parseInt(splitedDate[1]);
+	    return reservationMonth;
+		}
+		 catch (ArrayIndexOutOfBoundsException | NumberFormatException e1) {
+				return 0;
+		}
+	}
+	
+	public static int getReservationYear(String stringDate) {
+		try {
+		String getDate = stringDate;
+	    String[] splitedDate = getDate.split("-"); //podana przez u¿ytkownika data jest dzielona na dzieñ, miesi¹c, rok
+	    int reservationYear = Integer.parseInt(splitedDate[2]);
+	    return reservationYear;
+		}
+		catch (ArrayIndexOutOfBoundsException | NumberFormatException e1) {
+				return 0;
+		}
+	}
 	 
 	public static ArrayList<Integer> ListHour(String stringDate) throws NumberFormatException, ArrayIndexOutOfBoundsException, IOException {
 		
@@ -79,11 +115,9 @@ public class TimeSlot {
 		int presentMonth = getTodaysMonth();
 		int presentYear = getTodaysYear();
 
-	    String getDate = stringDate;
-	    String[] splitedDate = getDate.split("-"); //podana przez u¿ytkownika data jest dzielona na dzieñ, miesi¹c, rok
-	    int reservationYear = Integer.parseInt(splitedDate[0]);
-	    int reservationMonth = Integer.parseInt(splitedDate[1]);
-	    int reservationDay = Integer.parseInt(splitedDate[2]);
+	    int reservationDay = getReservationDay(stringDate);
+	    int reservationMonth = getReservationMonth(stringDate);
+	    int reservationYear = getReservationYear(stringDate);
 	    
 		int maximumOfDaysThisMonth = getMaxDaysOfThisMonth();
 		int maximumOfDaysNextMonth = getMaxDaysOfNextMonth();
@@ -184,7 +218,7 @@ public class TimeSlot {
 		}
 	} 
 	catch(NumberFormatException e){
-	JOptionPane.showMessageDialog(null, "Niepoprawny format daty! Spróbuj RRRR-MM-DD");
+	JOptionPane.showMessageDialog(null, "Niepoprawny format daty! Spróbuj DD-MM-RRRR");
 	}
 		return null;
 	} 
