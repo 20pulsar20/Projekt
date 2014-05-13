@@ -22,13 +22,25 @@ public class TimeSlotTest {
 		int todayMonth = TimeSlot.getTodaysMonth();
 		int todayYear = TimeSlot.getTodaysYear();
 		
-		int reservationDay = 02;
+		int reservationDay = 12;	//przy puszczaniu testu zmieniæ datê na dzisiejsz¹
 		int reservationMonth = 05;
 		int reservationYear = 2014;
 		
 		assertEquals(reservationDay, todayDay);
 		assertEquals(reservationMonth, todayMonth);
-		assertEquals(reservationYear, todayYear);
+		assertEquals(reservationYear, todayYear);		
+	}
+	
+	@Test
+	public void testMaksymalnaIloscDniWMiesiacu() {
+		int maxDayOfThisMonth = TimeSlot.getMaxDaysOfThisMonth();
+		int maxDayOfNextMonth = TimeSlot.getMaxDaysOfNextMonth();
+		
+		int verifyLenghtOfMay = 31;
+		int verifyLenghtOfJune = 30;
+		
+		assertEquals(verifyLenghtOfMay, maxDayOfThisMonth);
+		assertEquals(verifyLenghtOfJune, maxDayOfNextMonth);
 		
 		
 	}

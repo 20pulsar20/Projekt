@@ -57,7 +57,19 @@ public class TimeSlot {
 		  return todayYear;
 		}
 
+	public static int getMaxDaysOfThisMonth() {
+		  final Calendar c = Calendar.getInstance();
+		  c.set(getTodaysYear(), getTodaysMonth() -1, getTodaysDayOfMonth()); //-1 dlatego, ¿e w getTodaysMonth() doda³em 1 (inaczej miesi¹c styczeñ = 0, luty = 1, itp.)
+		  int getMaxDaysOfThisMonth =  c.getActualMaximum(Calendar.DAY_OF_MONTH);
+		  return getMaxDaysOfThisMonth;
+	}
 	
+	public static int getMaxDaysOfNextMonth() {
+		  final Calendar c = Calendar.getInstance();
+		  c.set(getTodaysYear(), getTodaysMonth(), getTodaysDayOfMonth());
+		  int getMaxDaysOfNextMonth =  c.getActualMaximum(Calendar.DAY_OF_MONTH);
+		  return getMaxDaysOfNextMonth;
+	}
 	 
 	public static ArrayList<Integer> ListHour(String stringDate) throws NumberFormatException, ArrayIndexOutOfBoundsException, IOException {
 		
@@ -73,11 +85,8 @@ public class TimeSlot {
 	    int reservationMonth = Integer.parseInt(splitedDate[1]);
 	    int reservationDay = Integer.parseInt(splitedDate[2]);
 	    
-		calendar.set(presentYear, presentMonth -1, presentDay); //-1 dlatego, ¿e w getTodaysMonth() doda³em 1 (inaczej miesi¹c styczeñ = 0, luty = 1, itp.)
-		int maximumOfDaysThisMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-		
-		calendar.set(presentYear, presentMonth, presentDay);
-		int maximumOfDaysNextMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+		int maximumOfDaysThisMonth = getMaxDaysOfThisMonth();
+		int maximumOfDaysNextMonth = getMaxDaysOfNextMonth();
 	    
 		ArrayList<Integer> availableHoursOfDay = new ArrayList<Integer>();	{
 			//w pierwszej kolejnoœci spradzane jest czy pierwsza wartoœæ (rok) ma 4 cyfry itp.
