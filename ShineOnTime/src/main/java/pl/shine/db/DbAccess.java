@@ -13,13 +13,20 @@ import java.sql.Statement;
 
 public class DbAccess {
 	private String databaseFilename = "ShineDatabase.db";
-	private Path initDbFile = new File("ShineDatabaseStructure.sql").toPath();
+	// TODO: should be added to classpath 
+	private Path initDbFile = new File("src/main/resources/ShineDatabaseStructure.sql").toPath();
+	private Connection connection;
 
+	public Connection getConnection()
+	{
+		return connection;
+	}
+	
 	public void initializeDb() throws ClassNotFoundException {
 		try {
 			Class.forName("org.sqlite.JDBC"); // zainicjownie biblioteki
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:" + databaseFilename); // stworzenie po³¹czenia do bazy
-			Statement stat = conn.createStatement();
+			connection = DriverManager.getConnection("jdbc:sqlite:" + databaseFilename); // stworzenie po³¹czenia do bazy
+			Statement stat = connection.createStatement();
 			
 			// czytamy zawartoœæ pliku
 			String fileContents = readFileContent();
@@ -30,6 +37,7 @@ public class DbAccess {
 		}
 	}
 
+	
 	private String readFileContent() {
 		StringBuilder builder = new StringBuilder();
 		try (BufferedReader reader = Files.newBufferedReader(initDbFile, Charset.defaultCharset())) {

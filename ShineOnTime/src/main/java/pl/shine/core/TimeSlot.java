@@ -10,7 +10,7 @@ import java.util.Calendar;
 
 import javax.swing.JOptionPane;
 
-import pl.shine.gui.gui;
+//import pl.shine.gui.gui;
 
 public class TimeSlot {
 	
