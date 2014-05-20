@@ -2,42 +2,34 @@ package pl.shine.core;
 
 import java.sql.Date;
 
+import pl.shine.db.DbAccess;
+
 public class ReservationManager {
+
 	
-	Date data;
-	int hour;
-	String email;
-	
-	public ReservationManager(Date data, int hour, String email) {
-		this.data = data;
-		this.hour = hour;
-		this.email = email;
+	public ReservationManager() {
+		
 	}
 
-	public Date getData() {
-		return data;
+	public static Reservation addReservation(TimeSlot ts, String email) {
+
+		if (ts.getStatus() == false) {
+			ts.setStatus(true);
+			return new Reservation(ts, email);
+			
+		} else
+			System.out.println("Termin jest zajêty");
+		return null;
 	}
 
-	public void setData(Date data) {
-		this.data = data;
-	}
+	public static void delReservation(TimeSlot ts, String email) {
 
-	public int getHour() {
-		return hour;
-	}
-
-	public void setHour(int hour) {
-		this.hour = hour;
-	}
-
-	public String getEmail() {
-		return email;
-	}
+		if (ts.getStatus() == true) {
+			ts.setStatus(false);
+			// usuniecie z bazy danych
+		} else
+			System.out.println("W danym terminie nie ma rezerwacji");
 	
-	public void setEmail(String email) {
-		this.email = email;
 	}
-	
-	
 
 }
