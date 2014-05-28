@@ -1,43 +1,21 @@
 package pl.shine.core;
 
-import java.sql.Date;
+import pl.shine.db.ReservationDao;
 
 public class ReservationManager {
+
+	private ReservationDao reservationDao;
 	
-	Date data;
-	int hour;
-	String email;
-	
-	public ReservationManager(Date data, int hour, String email) {
-		this.data = data;
-		this.hour = hour;
-		this.email = email;
+	public ReservationManager(ReservationDao reservationDao) {
+		this.reservationDao = reservationDao;
 	}
 
-	public Date getData() {
-		return data;
+	public void addReservation(Reservation reservation) {
+		reservationDao.save(reservation);
 	}
 
-	public void setData(Date data) {
-		this.data = data;
+	public void deleteReservation(Reservation reservation) {
+		reservationDao.delete(reservation);
 	}
-
-	public int getHour() {
-		return hour;
-	}
-
-	public void setHour(int hour) {
-		this.hour = hour;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	
 
 }
