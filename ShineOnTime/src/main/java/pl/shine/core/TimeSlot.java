@@ -1,30 +1,40 @@
 package pl.shine.core;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class TimeSlot {
 
-	private Date start;
-	private Integer duration;
+	private Calendar start;
 
-	public TimeSlot(Date start, Integer duration) {
-		this.start = start;
-		this.duration = duration;
+	public TimeSlot(Date date) {
+		this.start = Calendar.getInstance();
+		this.start.setTime(date);;
 	}
 
-	public Date getStart() {
+	public Calendar getStart() {
 		return start;
 	}
 
-	public void setStart(Date start) {
+	public void setStart(Calendar start) {
 		this.start = start;
 	}
 
-	public Integer getDuration() {
-		return duration;
+	public int getHour() {
+		return start.get(Calendar.HOUR_OF_DAY);
 	}
 
-	public void setDuration(Integer duration) {
-		this.duration = duration;
+	public int getDay() {
+		return start.get(Calendar.DAY_OF_MONTH);
 	}
+
+	public int getMonth() {
+		return start.get(Calendar.MONTH) + 1;
+	}
+
+	public int getYear() {
+		return start.get(Calendar.YEAR);
+	}
+	
+	
 }

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,9 +15,9 @@ import pl.shine.core.TimeSlot;
 
 public class ReservationDao {
 
-	private static final String INSERT_SQL = "insert into reservation (start, duration, email) values (?, ?, ?)";
-	private static final String SELECT_SQL = "select start, duration, email from reservation";
-	private static final String DELETE_SQL = "delete from reservation where start = ? and duration = ? and email = ?";
+	private static final String INSERT_SQL = "insert into reservation (start, email) values (?, ?)";
+	private static final String SELECT_SQL = "select start, email from reservation";
+	private static final String DELETE_SQL = "delete from reservation where start = ? and email = ?";
 	private DbAccess dbAccess;
 	
 	
@@ -33,8 +34,7 @@ public class ReservationDao {
 			PreparedStatement insertStatement = dbAccess.getConnection().prepareStatement(INSERT_SQL);
 			
 			insertStatement.setTimestamp(1, getTimestamp(reservation));
-			insertStatement.setInt(2,  reservation.getTimeSlot().getDuration());
-			insertStatement.setString(3,  reservation.getEmail());
+			insertStatement.setString(2,  reservation.getEmail());
 			
 			// execute insert SQL statement
 			insertStatement.executeUpdate();
@@ -45,8 +45,8 @@ public class ReservationDao {
 	}
 
 	private Timestamp getTimestamp(Reservation reservation) {
-		Date date = reservation.getTimeSlot().getStart();
-		return new Timestamp(date.getTime());
+		Calendar calendar = reservation.getTimeSlot().getStart();
+		return new Timestamp(calendar.getTimeInMillis());
 	}
 	
 	/*
@@ -72,10 +72,9 @@ public class ReservationDao {
 		List<Reservation> list = new ArrayList<>();
 		while (resultSet.next()) {
 			Date start = resultSet.getTimestamp(1);
-			Integer duration = resultSet.getInt(2);
-			String email = resultSet.getString(3);
+			String email = resultSet.getString(2);
 			
-			list.add(new Reservation(new TimeSlot(start, duration), email));
+			list.add(new Reservation(new TimeSlot(start), email));
 		}
 		return list;
 	}
@@ -85,8 +84,7 @@ public class ReservationDao {
 			PreparedStatement insertStatement = dbAccess.getConnection().prepareStatement(DELETE_SQL);
 			
 			insertStatement.setTimestamp(1, getTimestamp(reservation));
-			insertStatement.setInt(2,  reservation.getTimeSlot().getDuration());
-			insertStatement.setString(3,  reservation.getEmail());
+			insertStatement.setString(2,  reservation.getEmail());
 			
 			// execute insert SQL statement
 			insertStatement.executeUpdate();

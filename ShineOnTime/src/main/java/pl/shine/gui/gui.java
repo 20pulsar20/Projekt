@@ -6,7 +6,11 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,8 +26,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import pl.shine.core.ReservationManager;
+import pl.shine.core.TimeSlot;
 import pl.shine.db.DbAccess;
+import pl.shine.db.ReservationDao;
 
+@SuppressWarnings("serial")
 public class Gui extends JFrame {
 
 	static JPanel myPanel;
@@ -47,8 +55,14 @@ public class Gui extends JFrame {
 	JButton myButton_reservation;
 	JButton myButton_cancel;
 	JButton myButton_close;
+	
+	private ReservationManager reservationManager;
 
 	public Gui() {
+		DbAccess dbAccess = new DbAccess();
+		ReservationDao reservationDao = new ReservationDao(dbAccess);
+		reservationManager = new ReservationManager(reservationDao);
+		
 		myPanel = new JPanel();
 		myPanel.setBorder(new EmptyBorder(10, 20, 10, 20));
 		myPanel.setBackground(Color.WHITE);
@@ -169,11 +183,14 @@ public class Gui extends JFrame {
 				// zarezerwowanych
 				myTextArea_list.setText("");
 				String date = myTextField_date.getText();
+				Date userDate = null;
 				try {
-					// myTextField_reservationDay.setText(String.valueOf(TimeSlot.getReservationDay(date)));
-					// myTextField_reservationMonth.setText(String.valueOf(TimeSlot.getReservationMonth(date)));
-					// myTextField_reservationYear.setText(String.valueOf(TimeSlot.getReservationYear(date)));
-				} catch (NumberFormatException e) { // | IOException
+					userDate = new SimpleDateFormat("dd-MM-yyyy").parse(date);
+					TimeSlot timeSlot = new TimeSlot(userDate);
+					myTextField_reservationDay.setText(String.valueOf(timeSlot.getDay()));
+					myTextField_reservationMonth.setText(String.valueOf(timeSlot.getMonth()));
+					myTextField_reservationYear.setText(String.valueOf(timeSlot.getYear()));
+				} catch (ParseException e) { // | IOException
 					JOptionPane.showMessageDialog(null, "B³¹d przy podawaniu daty! Spróbuj DD-MM-RRRR");
 					myTextArea_list.setText("Podaj poprawne dane");
 					myTextField_reservationDay.setText("");
@@ -182,13 +199,14 @@ public class Gui extends JFrame {
 					myTextField_date.setText("");
 				}
 				try {
-					ArrayList<Integer> hour = new ArrayList<>(); // TimeSlot.ListHour(date);
-					if (hour != null) {
+					
+					List<TimeSlot> timeSlots = reservationManager.getAvailableTimeSlots(userDate);
+					if (timeSlots != null) {
 						myTextArea_list.setFont(new Font("Serif", Font.BOLD, 15));
 						myTextArea_list.setText("Dostêpne godziny: " + "\n" + "\n");
-						for (Integer i : hour) {
+						for (TimeSlot timeSlot : timeSlots) {
 							myTextArea_list.setFont(new Font("Serif", Font.ITALIC, 14));
-							myTextArea_list.append(i + "\t"); // "\n" - dla
+							myTextArea_list.append(timeSlot.getHour() + "\t"); // "\n" - dla
 																// nowej linii
 						}
 					} else {
@@ -278,10 +296,6 @@ public class Gui extends JFrame {
 
 	public static void main(String[] args) {
 		Gui mainWindow = new Gui();
-
-		// bdAccess.initializeDb();
-		// bdAccess.createTables();
-
 		mainWindow.setTitle("Shine on Time - rezerwacja myjni samochodowej");
 		mainWindow.setSize(500, 750);
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
