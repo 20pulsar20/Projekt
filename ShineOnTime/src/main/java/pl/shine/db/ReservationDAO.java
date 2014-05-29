@@ -13,7 +13,7 @@ import java.util.List;
 import pl.shine.core.Reservation;
 import pl.shine.core.TimeSlot;
 
-public class ReservationDao {
+public class ReservationDAO {
 
 	private static final String INSERT_SQL = "insert into reservation (start, email) values (?, ?)";
 	private static final String SELECT_SQL = "select start, email from reservation";
@@ -21,7 +21,7 @@ public class ReservationDao {
 	private DbAccess dbAccess;
 	
 	
-	public ReservationDao(DbAccess dbAccess)
+	public ReservationDAO(DbAccess dbAccess)
 	{
 		this.dbAccess = dbAccess;
 	}

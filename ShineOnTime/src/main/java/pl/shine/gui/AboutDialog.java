@@ -33,7 +33,7 @@ public class AboutDialog extends JDialog {
         
         JTextArea autors = new JTextArea("");
         autors.setTabSize(4);
-        autors.append("Autorzy: " + "\n" + "\t" + "Ewa Ciachanowska" + "\n" 
+        autors.append("Autorzy: " + "\n" + "\t" + "Ewa Ciechanowska" + "\n" 
         + "\t" + "Marek Ciszewski" + "\n"
         + "\t" + "Maciej Jachowicz" + "\n"
         + "\t" + "Maciej Waluœ");

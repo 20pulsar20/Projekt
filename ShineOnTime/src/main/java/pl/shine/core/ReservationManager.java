@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import pl.shine.db.ReservationDao;
+import pl.shine.db.ReservationDAO;
 
 public class ReservationManager {
 
-	private ReservationDao reservationDao;
+	private ReservationDAO reservationDao;
 	
-	public ReservationManager(ReservationDao reservationDao) {
+	public ReservationManager(ReservationDAO reservationDao) {
 		this.reservationDao = reservationDao;
 	}
 

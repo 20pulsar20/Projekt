@@ -9,7 +9,7 @@ public class TimeSlot {
 
 	public TimeSlot(Date date) {
 		this.start = Calendar.getInstance();
-		this.start.setTime(date);;
+		this.start.setTime(date);
 	}
 
 	public Calendar getStart() {
@@ -35,6 +35,5 @@ public class TimeSlot {
 	public int getYear() {
 		return start.get(Calendar.YEAR);
 	}
-	
-	
+
 }
