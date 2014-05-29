@@ -99,7 +99,7 @@ public class Gui extends JFrame {
 		myTextField_date.setEditable(true);
 		myLabel_info.setBorder(new EmptyBorder(5, 0, 15, 40));
 
-		myLabel_info.setText("Wpisz datê rezerwacji: ");
+		myLabel_info.setText("Wpisz datê rezerwacji (dd-MM-yyyy): ");
 		myLabel_info.setBorder(new EmptyBorder(10, 50, 10, 40));
 		myLabel_info.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		myLabel_info.setVisible(true);
@@ -237,13 +237,10 @@ public class Gui extends JFrame {
 				int dayGUI = Integer.parseInt(myTextField_reservationDay.getText());
 				int hourGUI = Integer.parseInt(myTextField_reservationHour.getText());
 
-				boolean availability = true; // DbAccess.checkDateAndHour(yearGUI,
-												// monthGUI, dayGUI, hourGUI);
+				boolean successful = reservationManager.makeReservation(yearGUI, monthGUI-1, dayGUI, hourGUI, "abc@abc.pl");
 
-				if (availability == true) {
-					// rezerwuj
-
-					JOptionPane.showMessageDialog(null, "Termin jest wolny!");
+				if (successful == true) {
+					JOptionPane.showMessageDialog(null, "Termin jest wolny! Rezerwacja zakoñczona pomyœlnie.");
 				} else {
 					JOptionPane.showMessageDialog(null, "Podany termin jest ju¿ zajêty! Wybierz inny!");
 				}

@@ -36,7 +36,7 @@ public class DbAccess {
 			// przekazujemy go do uruchomienia
 			stat.execute(fileContents);
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+			// print nothing if the DB already exists
 		}
 
 	}
